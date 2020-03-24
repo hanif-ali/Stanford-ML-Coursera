@@ -135,3 +135,32 @@ p = svmPredict(model, x);
 
 fprintf('\nProcessed %s\n\nSpam Classification: %d\n', filename, p);
 fprintf('(1 indicates spam, 0 indicates not spam)\n\n');
+
+% ====================== More Spam Testing =============================
+% This section checks the files in emails/ directory and predicts whether they are spam
+% or not. Edit the txt files to check on your strings.
+disp("");
+disp("Testing Custom Files in emails/ folder...");
+
+filenames = "emails/1.txt emails/2.txt emails/3.txt emails/4.txt emails/5.txt"
+while ~isempty(filenames);
+  % Tokenize the filenames string to loop over the filenames
+  [filename, filenames] = strtok(filenames);
+  file_contents = readFile(filename);
+  word_indices = processEmail(file_contents);
+  x = emailFeatures(word_indices);
+  p = svmPredict(model, x); % This also prints out the processed email.
+  printf("File: %s\n", filename);
+  printf("Prediction: ");
+  if p==1;
+    printf("Spam\n");
+    else;
+    printf("Not Spam\n")
+  endif;
+  disp("\n");
+  disp("----------------------------------------------------------------------");
+  disp("----------------------------------------------------------------------");
+  pause;
+endwhile;   
+    
+
